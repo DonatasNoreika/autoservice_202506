@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 class CarModel(models.Model):
     make = models.CharField(verbose_name="Gamintojas", max_length=100)
@@ -16,6 +17,7 @@ class Service(models.Model):
     def __str__(self):
         return self.name
 
+
 class Car(models.Model):
     licence_plate = models.CharField(verbose_name="Valstybinis numeris", max_length=10)
     vin_number = models.CharField(verbose_name="VIN kodas", max_length=20)
@@ -25,3 +27,23 @@ class Car(models.Model):
     def __str__(self):
         return f"{self.car_model} ({self.licence_plate})"
 
+
+class Order(models.Model):
+    car = models.ForeignKey(to="Car", verbose_name="Automobilis", on_delete=models.SET_NULL, null=True, blank=True)
+    date = models.DateTimeField(verbose_name="Data", auto_now_add=True)
+
+    # TODO total
+
+    def __str__(self):
+        return f"{self.car} - {self.date}"
+
+
+class OrderLine(models.Model):
+    order = models.ForeignKey(to="Order", verbose_name="Užsakymas", on_delete=models.CASCADE)
+    service = models.ForeignKey(to="Service", verbose_name="Paslauga", on_delete=models.SET_NULL, null=True, blank=True)
+    qty = models.IntegerField(verbose_name="Kiekis")
+
+    # TODO sum
+
+    def __str__(self):
+        return f"{self.service} - {self.qty} ({self.order.date})"
