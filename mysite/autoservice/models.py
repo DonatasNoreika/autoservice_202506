@@ -52,11 +52,18 @@ class Order(models.Model):
         verbose_name_plural = "Užsakymai"
 
     def __str__(self):
-        return f"{self.car} - {self.date}"
+        return f"{self.car} - {self.date}, total: {self.total()}"
+
+    def total(self):
+        lines = self.lines.all()
+        result = 0
+        for line in lines:
+            result += line.service.price * line.qty
+        return result
 
 
 class OrderLine(models.Model):
-    order = models.ForeignKey(to="Order", verbose_name="Užsakymas", on_delete=models.CASCADE)
+    order = models.ForeignKey(to="Order", verbose_name="Užsakymas", on_delete=models.CASCADE, related_name="lines")
     service = models.ForeignKey(to="Service", verbose_name="Paslauga", on_delete=models.SET_NULL, null=True, blank=True)
     qty = models.IntegerField(verbose_name="Kiekis")
 
