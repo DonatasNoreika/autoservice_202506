@@ -6,6 +6,10 @@ class CarModel(models.Model):
     make = models.CharField(verbose_name="Gamintojas", max_length=100)
     model = models.CharField(verbose_name="Modelis", max_length=100)
 
+    class Meta:
+        verbose_name = "Automobilio modelis"
+        verbose_name_plural = "Automobilio modeliai"
+
     def __str__(self):
         return f"{self.make} {self.model}"
 
@@ -13,6 +17,10 @@ class CarModel(models.Model):
 class Service(models.Model):
     name = models.CharField(verbose_name="Pavadinimas", max_length=100)
     price = models.IntegerField(verbose_name="Kaina")
+
+    class Meta:
+        verbose_name = "Paslauga"
+        verbose_name_plural = "Paslaugos"
 
     def __str__(self):
         return self.name
@@ -24,6 +32,11 @@ class Car(models.Model):
     client_name = models.CharField(verbose_name="Klientas", max_length=20)
     car_model = models.ForeignKey(to="CarModel", on_delete=models.SET_NULL, null=True, blank=True)
 
+    class Meta:
+        verbose_name = "Automobilis"
+        verbose_name_plural = "Automobiliai"
+
+
     def __str__(self):
         return f"{self.car_model} ({self.licence_plate})"
 
@@ -33,6 +46,10 @@ class Order(models.Model):
     date = models.DateTimeField(verbose_name="Data", auto_now_add=True)
 
     # TODO total
+
+    class Meta:
+        verbose_name = "Užsakymas"
+        verbose_name_plural = "Užsakymai"
 
     def __str__(self):
         return f"{self.car} - {self.date}"
@@ -44,6 +61,10 @@ class OrderLine(models.Model):
     qty = models.IntegerField(verbose_name="Kiekis")
 
     # TODO sum
+
+    class Meta:
+        verbose_name = "Užsakymo eilutė"
+        verbose_name_plural = "Užsakymo eilutės"
 
     def __str__(self):
         return f"{self.service} - {self.qty} ({self.order.date})"
