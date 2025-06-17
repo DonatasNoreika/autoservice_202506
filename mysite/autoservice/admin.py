@@ -4,7 +4,12 @@ from .models import CarModel, Service, Car, Order, OrderLine
 class OrderLineInLine(admin.TabularInline):
     model = OrderLine
     extra = 0
-    fields = ['service', 'qty']
+    fields = ['service', 'service_price_display', 'qty', 'line_sum']
+    readonly_fields = ['line_sum', 'service_price_display']
+
+    def service_price_display(self, obj):
+        return obj.service.price
+    service_price_display.short_description = 'Service Price'
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['car', 'date', 'total']
