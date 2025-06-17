@@ -55,11 +55,7 @@ class Order(models.Model):
         return f"{self.car} - {self.date}, total: {self.total()}"
 
     def total(self):
-        lines = self.lines.all()
-        result = 0
-        for line in lines:
-            result += line.service.price * line.qty
-        return result
+        return sum(line.line_sum() for line in self.lines.all())
 
 
 class OrderLine(models.Model):
