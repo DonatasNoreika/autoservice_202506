@@ -4,9 +4,10 @@ from .models import CarModel, Service, Car, Order, OrderLine
 class OrderLineInLine(admin.TabularInline):
     model = OrderLine
     extra = 0
+    fields = ['service', 'qty']
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['car', 'date']
+    list_display = ['car', 'date', 'total']
     inlines = [OrderLineInLine]
 
 class CarAdmin(admin.ModelAdmin):
@@ -17,9 +18,13 @@ class CarAdmin(admin.ModelAdmin):
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ['name', 'price']
 
+
+class OrderLineAdmin(admin.ModelAdmin):
+    list_display = ['service', 'service__price', 'qty', 'line_sum']
+
 # Register your models here.
 admin.site.register(CarModel)
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(Car, CarAdmin)
 admin.site.register(Order, OrderAdmin)
-admin.site.register(OrderLine)
+admin.site.register(OrderLine, OrderLineAdmin)
