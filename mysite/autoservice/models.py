@@ -62,9 +62,12 @@ class OrderLine(models.Model):
 
     # TODO sum
 
+    def line_sum(self):
+        return self.service.price * self.qty
+
     class Meta:
         verbose_name = "Užsakymo eilutė"
         verbose_name_plural = "Užsakymo eilutės"
 
     def __str__(self):
-        return f"{self.service} - {self.qty} ({self.order.date})"
+        return f"{self.service} ({self.service.price}) * {self.qty} = {self.line_sum()} ({self.order.date})"
