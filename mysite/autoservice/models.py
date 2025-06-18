@@ -46,6 +46,15 @@ class Order(models.Model):
     date = models.DateTimeField(verbose_name="Data", auto_now_add=True)
 
     # TODO total
+    LOAN_STATUS = (
+        ('p', 'Patvirtinta'),
+        ('v', 'Vykdoma'),
+        ('i', 'Įvykdyta'),
+        ('a', 'Atšaukta'),
+    )
+
+    status = models.CharField(max_length=1, choices=LOAN_STATUS, blank=True, default="p", help_text='Būsena')
+
 
     class Meta:
         verbose_name = "Užsakymas"
