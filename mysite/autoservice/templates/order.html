@@ -6,4 +6,9 @@
 <p><strong>Automobilis: </strong>{{ order.car }}</p>
 <p><strong>Data: </strong>{{ order.date }}</p>
 <p><strong>Būsena: </strong>{{ order.get_status_display }}</p>
+<!--<p>{{ order.lines.all }}</p>-->
+{% for line in order.lines.all %}
+<p>{{ line.service }} ({{ line.service.price }}) - {{ line.qty }} = {{ line.line_sum }}</p>
+{% endfor %}
+<p><strong>Bendra suma: </strong>{{ order.total }}</p>
 {% endblock %}
