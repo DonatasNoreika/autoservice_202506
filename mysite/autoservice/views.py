@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.views import generic
 from django.core.paginator import Paginator
+from django.db.models import Q
 from .models import Service, Order, Car
+
 
 # Create your views here.
 def index(request):
@@ -36,3 +38,23 @@ class OrderDetailView(generic.DetailView):
     template_name = "order.html"
     context_object_name = "order"
 
+
+def search(request):
+    """
+    paprasta paieška. query ima informaciją iš paieškos laukelio,
+    search_results prafiltruoja pagal įvestą tekstą knygų pavadinimus ir aprašymus.
+    Icontains nuo contains skiriasi tuo, kad icontains ignoruoja ar raidės
+    didžiosios/mažosios.
+    """
+    query = request.GET.get('query')
+
+    car_search_results = Car.objects.filter(
+        Q(client_name__icontains=query) | Q(car_model__make__icontains=query) | Q(
+            car_model__model__icontains=query) | Q(
+            licence_plate__icontains=query) | Q(vin_number__icontains=query))
+
+    context = {
+        "query": query,
+        "cars": car_search_results,
+    }
+    return render(request, template_name="search.html", context=context)
