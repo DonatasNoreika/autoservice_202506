@@ -31,6 +31,7 @@ class Car(models.Model):
     vin_number = models.CharField(verbose_name="VIN kodas", max_length=20)
     client_name = models.CharField(verbose_name="Klientas", max_length=20)
     car_model = models.ForeignKey(to="CarModel", on_delete=models.SET_NULL, null=True, blank=True)
+    image = models.ImageField(verbose_name="Nuotrauka", upload_to="cars", null=True, blank=True)
 
     class Meta:
         verbose_name = "Automobilis"

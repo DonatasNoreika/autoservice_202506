@@ -3,6 +3,10 @@
 {% block "title" %}Automobilis{% endblock %}
 
 {% block "content" %}
+{% load static %}
+{% if car.image %}
+<img src="{{ car.image.url }}" class="card-img-top rounded-3" alt="...">
+{% endif %}
 <h1>Automobilis <strong>{{ car.car_model }}</strong></h1>
 <p><strong>Savininkas: </strong>{{ car.client_name }}</p>
 <p><strong>VIN kodas: </strong>{{ car.vin_number }}</p>
