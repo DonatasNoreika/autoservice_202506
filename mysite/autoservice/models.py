@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
-
+from tinymce.models import HTMLField
 
 # Create your models here.
 class CarModel(models.Model):
@@ -34,6 +34,7 @@ class Car(models.Model):
     client_name = models.CharField(verbose_name="Klientas", max_length=20)
     car_model = models.ForeignKey(to="CarModel", on_delete=models.SET_NULL, null=True, blank=True)
     image = models.ImageField(verbose_name="Nuotrauka", upload_to="cars", null=True, blank=True)
+    description = HTMLField(verbose_name="Aprašymas", max_length=5000, default="")
 
     class Meta:
         verbose_name = "Automobilis"
