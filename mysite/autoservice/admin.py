@@ -13,7 +13,7 @@ class OrderLineInLine(admin.TabularInline):
     service_price_display.short_description = "Paslaugos Suma"
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['car', 'date', 'total', 'status']
+    list_display = ['car', 'date', 'total', 'client', 'status']
     inlines = [OrderLineInLine]
     readonly_fields = ['date', 'total']
 

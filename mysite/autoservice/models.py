@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -45,6 +46,7 @@ class Car(models.Model):
 class Order(models.Model):
     car = models.ForeignKey(to="Car", verbose_name="Automobilis", on_delete=models.SET_NULL, null=True, blank=True)
     date = models.DateTimeField(verbose_name="Data", auto_now_add=True)
+    client = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, blank=True)
 
     # TODO total
     LOAN_STATUS = (
@@ -71,7 +73,7 @@ class Order(models.Model):
 class OrderLine(models.Model):
     order = models.ForeignKey(to="Order", verbose_name="Užsakymas", on_delete=models.CASCADE, related_name="lines")
     service = models.ForeignKey(to="Service", verbose_name="Paslauga", on_delete=models.SET_NULL, null=True, blank=True)
-    qty = models.IntegerField(verbose_name="Kiekis")
+    qty = models.IntegerField(verbose_name="Kiekis", default=1)
 
     # TODO sum
 
