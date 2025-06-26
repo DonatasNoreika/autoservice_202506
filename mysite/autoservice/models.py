@@ -47,6 +47,7 @@ class Order(models.Model):
     car = models.ForeignKey(to="Car", verbose_name="Automobilis", on_delete=models.SET_NULL, null=True, blank=True)
     date = models.DateTimeField(verbose_name="Data", auto_now_add=True)
     client = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, blank=True)
+    deadline = models.DateTimeField(verbose_name="Gražinimo laikas", null=True, blank=True)
 
     # TODO total
     LOAN_STATUS = (

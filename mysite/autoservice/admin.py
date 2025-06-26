@@ -13,9 +13,10 @@ class OrderLineInLine(admin.TabularInline):
     service_price_display.short_description = "Paslaugos Suma"
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['car', 'date', 'total', 'client', 'status']
+    list_display = ['car', 'date', 'total', 'client', 'status', 'deadline']
     inlines = [OrderLineInLine]
     readonly_fields = ['date', 'total']
+    list_editable = ['client', 'status', 'deadline']
 
     # fieldsets = (
     #     ('General', {'fields': ('car', 'date', 'total')}),
