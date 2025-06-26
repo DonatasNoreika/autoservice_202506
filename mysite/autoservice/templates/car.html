@@ -11,4 +11,5 @@
 <p><strong>Savininkas: </strong>{{ car.client_name }}</p>
 <p><strong>VIN kodas: </strong>{{ car.vin_number }}</p>
 <p><strong>Valstybinis numeris: </strong>{{ car.licence_plate }}</p>
+{{ car.description | safe }}
 {% endblock %}
