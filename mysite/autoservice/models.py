@@ -51,7 +51,7 @@ class Order(models.Model):
     deadline = models.DateTimeField(verbose_name="Gražinimo laikas", null=True, blank=True)
 
     def deadline_overdue(self):
-        return self.deadline and self.deadline < timezone.now()
+        return self.status == "v" and self.deadline and self.deadline < timezone.now()
 
     # TODO total
     LOAN_STATUS = (
