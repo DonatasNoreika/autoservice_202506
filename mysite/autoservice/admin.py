@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import CarModel, Service, Car, Order, OrderLine
 
+
 class OrderLineInLine(admin.TabularInline):
     model = OrderLine
     extra = 0
@@ -13,7 +14,7 @@ class OrderLineInLine(admin.TabularInline):
     service_price_display.short_description = "Paslaugos Suma"
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['car', 'date', 'total', 'client', 'status', 'deadline']
+    list_display = ['car', 'date', 'total', 'client', 'status', 'deadline', 'deadline_overdue']
     inlines = [OrderLineInLine]
     readonly_fields = ['date', 'total']
     list_editable = ['client', 'status', 'deadline']

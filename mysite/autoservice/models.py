@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 
 
 # Create your models here.
@@ -48,6 +49,9 @@ class Order(models.Model):
     date = models.DateTimeField(verbose_name="Data", auto_now_add=True)
     client = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, blank=True)
     deadline = models.DateTimeField(verbose_name="Gražinimo laikas", null=True, blank=True)
+
+    def deadline_overdue(self):
+        return self.deadline and self.deadline < timezone.now()
 
     # TODO total
     LOAN_STATUS = (
