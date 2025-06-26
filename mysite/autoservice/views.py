@@ -34,13 +34,22 @@ class OrderListView(generic.ListView):
     model = Order
     template_name = "orders.html"
     context_object_name = "orders"
-    paginate_by = 3
+    paginate_by = 8
 
 
 class OrderDetailView(generic.DetailView):
     model = Order
     template_name = "order.html"
     context_object_name = "order"
+
+
+class UserOrderListView(generic.ListView):
+    model = Order
+    template_name = "user_orders.html"
+    context_object_name = "orders"
+
+    def get_queryset(self):
+        return Order.objects.filter(client=self.request.user)
 
 
 def search(request):
