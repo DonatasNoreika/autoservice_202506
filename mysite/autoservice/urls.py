@@ -1,5 +1,12 @@
 from django.urls import path
-from .views import index, cars, car, search, OrderListView, OrderDetailView, UserOrderListView
+from .views import (index,
+                    cars,
+                    car,
+                    search,
+                    register,
+                    OrderListView,
+                    OrderDetailView,
+                    UserOrderListView)
 
 urlpatterns = [
     path("", index, name="index"),
@@ -8,5 +15,6 @@ urlpatterns = [
     path("orders/", OrderListView.as_view(), name="orders"),
     path("orders/<int:pk>", OrderDetailView.as_view(), name="order"),
     path('search/', search, name='search'),
+    path('register/', register, name='register'),
     path("userorders/", UserOrderListView.as_view(), name="userorders"),
 ]
