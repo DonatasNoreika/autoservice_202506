@@ -62,7 +62,7 @@
                 <div class="col-lg">
                     {% if messages %}
                     {% for message in messages %}
-                    <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'info' %}success{% endif %}"
+                    <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'info' or message.tags == 'success' %}success{% endif %}"
                          role="alert">
                         {{ message }}
                     </div>
