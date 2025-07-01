@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.contrib.auth import password_validation
 from django.views.generic.edit import FormMixin
+from django.contrib.auth.decorators import login_required
 from .forms import OrderReviewForm
 
 
@@ -132,3 +133,8 @@ def register(request):
             messages.error(request, 'Slaptažodžiai nesutampa!')
             return redirect('register')
     return render(request, 'register.html')
+
+
+@login_required
+def profile(request):
+    return render(request, 'profile.html')
