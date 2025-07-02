@@ -10,7 +10,7 @@ from django.contrib.auth import password_validation
 from django.views.generic.edit import FormMixin
 from django.contrib.auth.decorators import login_required
 from .forms import OrderReviewForm, UserUpdateForm, ProfileUpdateForm, OrderCreateForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 # Create your views here.
 def index(request):
@@ -169,4 +169,16 @@ class UserOrderCreateView(LoginRequiredMixin, generic.CreateView):
         form.instance.client = self.request.user
         return super().form_valid(form)
 
+
+class UserOrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
+    model = Order
+    template_name = "order_form.html"
+    form_class = OrderCreateForm
+    # success_url = "/autoservice/userorders/"
+
+    def get_success_url(self):
+        return reverse("order", kwargs={"pk": self.object.pk})
+
+    def test_func(self):
+        return self.get_object().client == self.request.user
 
