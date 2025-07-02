@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth import password_validation
 from django.views.generic.edit import FormMixin
 from django.contrib.auth.decorators import login_required
-from .forms import OrderReviewForm, UserUpdateForm, ProfileUpdateForm
+from .forms import OrderReviewForm, UserUpdateForm, ProfileUpdateForm, OrderCreateForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
@@ -157,3 +157,16 @@ class OrderDetailView(FormMixin, generic.DetailView):
         form.instance.reviewer = self.request.user
         form.save()
         return super().form_valid(form)
+
+
+class UserOrderCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Order
+    template_name = "order_form.html"
+    form_class = OrderCreateForm
+    success_url = "/autoservice/userorders/"
+
+    def form_valid(self, form):
+        form.instance.client = self.request.user
+        return super().form_valid(form)
+
+
