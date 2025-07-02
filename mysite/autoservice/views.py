@@ -10,7 +10,7 @@ from django.contrib.auth import password_validation
 from django.views.generic.edit import FormMixin
 from django.contrib.auth.decorators import login_required
 from .forms import OrderReviewForm, UserUpdateForm, ProfileUpdateForm
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 def index(request):
@@ -42,39 +42,6 @@ class OrderListView(generic.ListView):
     template_name = "orders.html"
     context_object_name = "orders"
     paginate_by = 8
-
-
-class OrderDetailView(FormMixin, generic.DetailView):
-    model = Order
-    template_name = "order.html"
-    context_object_name = "order"
-    form_class = OrderReviewForm
-
-    def get_success_url(self):
-        return reverse("order", kwargs={"pk": self.object.id})
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form = self.get_form()
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
-
-    def form_valid(self, form):
-        form.instance.order = self.object
-        form.instance.reviewer = self.request.user
-        form.save()
-        return super().form_valid(form)
-
-
-class UserOrderListView(generic.ListView):
-    model = Order
-    template_name = "user_orders.html"
-    context_object_name = "orders"
-
-    def get_queryset(self):
-        return Order.objects.filter(client=self.request.user)
 
 
 def search(request):
@@ -157,3 +124,36 @@ def profile(request):
         'p_form': p_form,
     }
     return render(request, "profile.html", context=context)
+
+
+class UserOrderListView(LoginRequiredMixin, generic.ListView):
+    model = Order
+    template_name = "user_orders.html"
+    context_object_name = "orders"
+
+    def get_queryset(self):
+        return Order.objects.filter(client=self.request.user)
+
+
+class OrderDetailView(FormMixin, generic.DetailView):
+    model = Order
+    template_name = "order.html"
+    context_object_name = "order"
+    form_class = OrderReviewForm
+
+    def get_success_url(self):
+        return reverse("order", kwargs={"pk": self.object.id})
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        form.instance.order = self.object
+        form.instance.reviewer = self.request.user
+        form.save()
+        return super().form_valid(form)
