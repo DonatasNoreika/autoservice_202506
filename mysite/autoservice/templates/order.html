@@ -27,6 +27,7 @@
         <th>Kaina</th>
         <th>Kiekis</th>
         <th>Suma</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -36,6 +37,9 @@
         <td class="text-end pe-5">{{ line.service.price }}&nbspEur</td>
         <td>{{ line.qty }}</td>
         <td>{{ line.line_sum }}</td>
+        <td>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'orderlines_update' line.pk %}">Redaguoti</a>
+        </td>
       </tr>
 {% endfor %}
       <tr>
